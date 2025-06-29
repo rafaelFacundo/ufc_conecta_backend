@@ -1,0 +1,16 @@
+name: Deploy to render
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm install
+
+      - name: Deploy to render
+        run: curl "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
