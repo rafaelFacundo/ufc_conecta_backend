@@ -16,6 +16,7 @@ const employerSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   profile: {
     type: String,
@@ -25,6 +26,34 @@ const employerSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  site: {
+    type: String,
+  },
+
+  location: {
+    type: String,
+  },
+
+  specializations: {
+    type: [String],
+    default: [],
+  },
+
+  contactEmail: {
+    type: String,
+  },
+
+  profileImage: {
+    type: String,
+    default: "",
+  },
+
+  hiringRate: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0,
   },
 });
 

@@ -19,7 +19,9 @@ app.get("/testserver", (req, res) => {
 app.use(API_ENTRY_POINT, studentRouter);
 app.use(API_ENTRY_POINT, employerRouter);
 
-app.listen(process.env.SERVER_PORT, () => {
+const PORT = process.env.SERVER_PORT || 3000;
+
+app.listen(PORT, () => {
   console.log("THE SERVER IS ON THE PORT 3000");
   console.log("Going to connect to the database");
   connectToDataBase();
