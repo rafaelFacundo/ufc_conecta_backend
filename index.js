@@ -3,6 +3,7 @@ import "dotenv/config";
 import { connectToDataBase } from "./config/db.js";
 import studentRouter from "./routes/studentRoutes.js";
 import employerRouter from "./routes/employerRoutes.js";
+import opportunityRouter from "./routes/opportunityRoutes.js";
 import cors from "cors";
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/testserver", (req, res) => {
 
 app.use(API_ENTRY_POINT, studentRouter);
 app.use(API_ENTRY_POINT, employerRouter);
+app.use(API_ENTRY_POINT, opportunityRouter);
 
 const PORT = process.env.SERVER_PORT || 3000;
 

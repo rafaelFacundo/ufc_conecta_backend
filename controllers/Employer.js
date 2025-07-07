@@ -1,4 +1,5 @@
 import Employer from "../models/Employer.js";
+import Opportunity from "../models/Opportunity.js";
 import { hashPassword } from "../utils/bcryptPasswordHash.js";
 
 export const create = async (req, res) => {
@@ -70,3 +71,20 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const getOpportunitiesByEmployer = async (req, res) => {
+  try {
+    const employerId = req.params.id;
+    const opportunities = await Opportunity.find({ employer: employerId });
+    res.status(200).json(opportunities);
+  } catch (error) {
+    console.log(
+      "Something went wrong when trying to get opportunities by employer"
+    );
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong when trying to get opportunities by employer",
+    });
+  }
+};
+

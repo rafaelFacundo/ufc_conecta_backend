@@ -9,6 +9,7 @@ import {
   deleteCertificate,
   deleteExperience,
   deleteProject,
+  getAppliedOpportunities,
   getArticle,
   getCertificate,
   getExperiences,
@@ -47,4 +48,10 @@ studentRouter.put("/students/:id/certificates/:certId", updateCertificate);
 studentRouter.post("/students/:id/certificates", addCertificate);
 studentRouter.delete("/students/:id/certificates/:certId", deleteCertificate);
 
+studentRouter.get(
+  "/students/:id/opportunities/applied",
+  getAppliedOpportunities
+);
+
 export default studentRouter;
+
