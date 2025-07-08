@@ -26,18 +26,32 @@ const opportunitySchema = new Schema({
   },
   employer: {
     type: Schema.Types.ObjectId,
-    ref: 'Employer',
+    ref: "Employer",
     required: true,
   },
   applicants: {
     type: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Student',
+        ref: "Student",
       },
     ],
     default: [],
-  }
+  },
+  contracts: {
+    type: [
+      {
+        _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+        employeeId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        status: {
+          type: String,
+          enum: ["pending", "confirmed"],
+          default: "pending",
+        },
+      },
+    ],
+    default: [],
+  },
 });
 
 const Opportunity = mongoose.model("Opportunity", opportunitySchema);
