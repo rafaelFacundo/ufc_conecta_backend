@@ -8,7 +8,6 @@ import admRouter from "./routes/admRouter.js";
 import authRouter from "./routes/Auth.js";
 import cors from "cors";
 import contractRouter from "./routes/contractRouter.js";
-import { authenticate } from "./middlewares/auth.js";
 
 const app = express();
 
@@ -19,11 +18,6 @@ const API_ENTRY_POINT = "/api/v1";
 
 app.get("/testserver", (req, res) => {
   res.send("THE SERVER IS ON FIRE 🔥.");
-});
-
-app.get("/testToken", authenticate, (req, res) => {
-  console.log(req.user);
-  res.status(200).json({ m: "lKDLKSJdlk" });
 });
 
 app.use(API_ENTRY_POINT, studentRouter);

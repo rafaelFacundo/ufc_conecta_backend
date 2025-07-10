@@ -1,7 +1,7 @@
 import Employer from "../models/Employer.js";
 import Opportunity from "../models/Opportunity.js";
 import { hashPassword } from "../utils/bcryptPasswordHash.js";
-import { generateNewToken } from "../utils/tokens.js";
+import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
 
 export const create = async (req, res) => {
   try {
@@ -21,8 +21,17 @@ export const create = async (req, res) => {
       userId: newEmployer._id,
       type: "employer",
     };
+    const dataToSendInRefreshToken = {
+      userId: newEmployer._id,
+    };
     const accessToken = generateNewToken(dataToSendInToken, "1h");
-    res.status(201).json({ accessToken, data: newEmployerObject });
+    const refreshToken = generateNewRefreshToken(
+      dataToSendInRefreshToken,
+      "10d"
+    );
+    res
+      .status(201)
+      .json({ accessToken, refreshToken, data: newEmployerObject });
   } catch (error) {
     console.log("Something went wrong when trying to create save the student");
     console.log(error);

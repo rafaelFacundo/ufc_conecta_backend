@@ -2,17 +2,21 @@ import Opportunity from "../models/Opportunity.js";
 
 export const start = async (req, res) => {
   try {
-    const { userId, employerId } = req.body;
-    const opportunity = await Opportunity.find({
+    const { userId, employerId, opportunityId } = req.body;
+    const opportunity = await Opportunity.findOne({
       employer: employerId,
+      _id: opportunityId,
     });
+    console.log("OPOORR", opportunity.contracts);
     if (!opportunity) {
       return res.status(404).json({ message: "Opportunity not found" });
     }
+
     opportunity.contracts.push({
       employeeId: userId,
       status: "pending",
     });
+
     await opportunity.save();
     res.status(200).json(opportunity);
   } catch (error) {

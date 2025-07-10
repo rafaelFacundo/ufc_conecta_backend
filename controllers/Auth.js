@@ -35,3 +35,30 @@ export const login = async (req, res) => {
     res.send(500).json({ message: "something went wrong" });
   }
 };
+
+export const renewAccessToken = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    let user = await Student.findOne({ _id: userId });
+    let userType = "student";
+    if (!user) {
+      user = await Employer.findOne({ _id: userId });
+      if (!user) {
+        return res.status(401).json({ message: "invalid token" });
+      }
+      userType = "employer";
+    }
+
+    const dataToSendInToken = {
+      userId: userId,
+      type: userType,
+    };
+
+    const accessToken = generateNewToken(dataToSendInToken, "1d");
+    res.status(200).json({ user, accessToken });
+  } catch (error) {
+    console.log("Something went wrong");
+    console.log(error);
+    res.status(500).json({ message: "Can't renew access token" });
+  }
+};

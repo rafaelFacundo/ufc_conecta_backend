@@ -1,7 +1,7 @@
 import Student from "../models/Student.js";
 import Opportunity from "../models/Opportunity.js";
 import { hashPassword } from "../utils/bcryptPasswordHash.js";
-import { generateNewToken } from "../utils/tokens.js";
+import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
 
 export const create = async (req, res) => {
   try {
@@ -23,8 +23,15 @@ export const create = async (req, res) => {
       userId: newStudent._id,
       type: "student",
     };
-    const accessToken = generateNewToken(dataToSendInToken, "10h");
-    res.status(201).json({ accessToken, data: newStudentObject });
+    const dataToSendInRefreshToken = {
+      userId: newStudent._id,
+    };
+    const accessToken = generateNewToken(dataToSendInToken, "10d");
+    const refreshToken = generateNewRefreshToken(
+      dataToSendInRefreshToken,
+      "10d"
+    );
+    res.status(201).json({ accessToken, refreshToken, data: newStudentObject });
   } catch (error) {
     console.log("Something went wrong when trying to create save the student");
     console.log(error);
