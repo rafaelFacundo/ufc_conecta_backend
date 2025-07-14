@@ -15,6 +15,7 @@ import {
   getExperiences,
   getProfile,
   getProject,
+  searchStudents,
   updateArticle,
   updateCertificate,
   updateExperience,
@@ -29,6 +30,7 @@ import {
 const studentRouter = new Router();
 
 studentRouter.post("/students/register", create);
+studentRouter.get("/students/search", searchStudents);
 studentRouter.get(
   "/students/:id/profile",
   authenticateStudentOrEmployer,

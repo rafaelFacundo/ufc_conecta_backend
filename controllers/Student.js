@@ -483,3 +483,36 @@ export const getAppliedOpportunities = async (req, res) => {
     });
   }
 };
+
+export const searchStudents = async (req, res) => {
+  try {
+    const { name, description, course, entrySemester, skills } = req.query;
+    const filter = {};
+
+    if (name) {
+      filter.name = { $regex: new RegExp(name, 'i') };
+    }
+    if (description) {
+      filter.description = { $regex: new RegExp(description, 'i') };
+    }
+    if (course) {
+      filter.course = { $regex: new RegExp(course, 'i') };
+    }
+    if (entrySemester) {
+      filter.entrySemester = entrySemester;
+    }
+    if (skills) {
+      const skillsArray = skills.split(',').map(skill => skill.trim());
+      filter.skills = { $all: skillsArray };
+    }
+
+    const students = await Student.find(filter).select('-password');
+    res.status(200).json(students);
+  } catch (error) {
+    console.log("Something went wrong when trying to search for students");
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong when trying to search for students.",
+    });
+  }
+};
