@@ -1,17 +1,17 @@
 import Student from "../models/Student.js";
 import Employer from "../models/Employer.js";
 import { comparePassword } from "../utils/bcryptPasswordHash.js";
-import { generateNewToken } from "../utils/tokens.js";
+import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
 
 export const login = async (req, res) => {
   try {
     let userType = "student";
     const { email, password } = req.body;
-    let user = await Student.find({
+    let user = await Student.findOne({
       email,
     });
     if (!user) {
-      user = await Employer.find({
+      user = await Employer.findOne({
         email,
       });
       if (!user) {
@@ -27,8 +27,15 @@ export const login = async (req, res) => {
       userId: user._id,
       type: userType,
     };
+    const dataToSendInRefreshToken = {
+      userId: user._id,
+    };
     const accessToken = generateNewToken(dataToSendInToken, "1h");
-    res.status(200).json({ user, accessToken });
+    const refreshToken = generateNewRefreshToken(
+      dataToSendInRefreshToken,
+      "10d"
+    );
+    res.status(200).json({ user, accessToken, refreshToken });
   } catch (error) {
     console.log("Error while trying to login");
     console.log(error);
