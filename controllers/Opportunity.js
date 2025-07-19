@@ -33,22 +33,16 @@ export const getAll = async (req, res) => {
   } catch (error) {
     console.log("Something went wrong when trying to get all opportunities");
     console.log(error);
-    res
-      .status(500)
-      .json({ message: "Something went wrong when trying to get all opportunities" });
+    res.status(500).json({
+      message: "Something went wrong when trying to get all opportunities",
+    });
   }
 };
 
 export const create = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      salary,
-      weeklyHours,
-      workLocation,
-      employer,
-    } = req.body;
+    const { title, description, salary, weeklyHours, workLocation, employer } =
+      req.body;
     const newOpportunity = new Opportunity({
       title,
       description,
@@ -117,9 +111,7 @@ export const getApplicants = async (req, res) => {
     }
     res.status(200).json(opportunity.applicants);
   } catch (error) {
-    console.log(
-      "Something went wrong when trying to retrieve the applicants"
-    );
+    console.log("Something went wrong when trying to retrieve the applicants");
     console.log(error);
     res.status(500).json({
       message: "Something went wrong when trying to retrieve the applicants.",
@@ -161,3 +153,18 @@ export const applyToOpportunity = async (req, res) => {
   }
 };
 
+export const getByEmployerId = async (req, res) => {
+  try {
+    const employerId = req.params.id;
+    const opportunities = await Opportunity.find({
+      employer: employerId,
+    });
+    res.status(200).json(opportunities);
+  } catch (error) {
+    console.log("Something went wrong when trying to retrieve the opportunity");
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong when trying to retrieve the opportunity.",
+    });
+  }
+};

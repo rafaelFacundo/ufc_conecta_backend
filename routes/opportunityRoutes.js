@@ -6,6 +6,7 @@ import {
   remove,
   getApplicants,
   applyToOpportunity,
+  getByEmployerId,
 } from "../controllers/Opportunity.js";
 import {
   authenticateEmployer,
@@ -28,6 +29,11 @@ router.post(
   "/opportunities/:id/apply",
   authenticateStudent,
   applyToOpportunity
+);
+router.get(
+  "/opportunities/employer/:id",
+  authenticateStudentOrEmployer,
+  getByEmployerId
 );
 
 export default router;

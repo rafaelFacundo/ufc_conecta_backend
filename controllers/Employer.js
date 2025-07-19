@@ -25,7 +25,7 @@ export const create = async (req, res) => {
     const dataToSendInRefreshToken = {
       userId: newEmployer._id,
     };
-    const accessToken = generateNewToken(dataToSendInToken, "1h");
+    const accessToken = generateNewToken(dataToSendInToken, "10d");
     const refreshToken = generateNewRefreshToken(
       dataToSendInRefreshToken,
       "10d"
