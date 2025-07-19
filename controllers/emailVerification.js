@@ -8,7 +8,7 @@ import { comparePassword, hashPassword } from "../utils/bcryptPasswordHash.js";
 export const sendEmailVerification = async (req, res) => {
   try {
     const { userEmail } = req.body;
-    /* let isThisEmailAlreadyInUse = await Student.findOne({ email: userEmail });
+    let isThisEmailAlreadyInUse = await Student.findOne({ email: userEmail });
     console.log("asdas ", isThisEmailAlreadyInUse);
     if (!isThisEmailAlreadyInUse) {
       console.log("entered on if");
@@ -18,7 +18,7 @@ export const sendEmailVerification = async (req, res) => {
 
     if (isThisEmailAlreadyInUse) {
       return res.status(400).json({ message: "Email already in use" });
-    } */
+    }
     const verificationCodeToSend = generateRandomCode();
     const verificationCodeHash = await hashPassword(verificationCodeToSend);
     const emailVerification = new EmailVerification({

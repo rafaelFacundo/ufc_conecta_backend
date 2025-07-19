@@ -1,5 +1,6 @@
 import Employer from "../models/Employer.js";
 import Opportunity from "../models/Opportunity.js";
+import RefreshToken from "../models/RefreshToken.js";
 import { hashPassword } from "../utils/bcryptPasswordHash.js";
 import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
 
@@ -29,6 +30,12 @@ export const create = async (req, res) => {
       dataToSendInRefreshToken,
       "10d"
     );
+    await new RefreshToken({
+      hash: refreshToken,
+      userId: newEmployerObject._id,
+      creationDate: Date.now(),
+      isValid: true,
+    }).save();
     res
       .status(201)
       .json({ accessToken, refreshToken, data: newEmployerObject });

@@ -2,6 +2,7 @@ import Student from "../models/Student.js";
 import Employer from "../models/Employer.js";
 import { comparePassword } from "../utils/bcryptPasswordHash.js";
 import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
+import RefreshToken from "../models/RefreshToken.js";
 
 export const login = async (req, res) => {
   try {
@@ -35,6 +36,12 @@ export const login = async (req, res) => {
       dataToSendInRefreshToken,
       "10d"
     );
+    await new RefreshToken({
+      hash: refreshToken,
+      userId: user._id,
+      creationDate: Date.now(),
+      isValid: true,
+    }).save();
     res.status(200).json({ user, accessToken, refreshToken });
   } catch (error) {
     console.log("Error while trying to login");

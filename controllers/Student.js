@@ -2,6 +2,7 @@ import Student from "../models/Student.js";
 import Opportunity from "../models/Opportunity.js";
 import { hashPassword } from "../utils/bcryptPasswordHash.js";
 import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
+import RefreshToken from "../models/RefreshToken.js";
 
 export const create = async (req, res) => {
   try {
@@ -31,6 +32,12 @@ export const create = async (req, res) => {
       dataToSendInRefreshToken,
       "10d"
     );
+    await new RefreshToken({
+      hash: refreshToken,
+      userId: newStudentObject._id,
+      creationDate: Date.now(),
+      isValid: true,
+    }).save();
     res.status(201).json({ accessToken, refreshToken, data: newStudentObject });
   } catch (error) {
     console.log("Something went wrong when trying to create save the student");
@@ -490,23 +497,23 @@ export const searchStudents = async (req, res) => {
     const filter = {};
 
     if (name) {
-      filter.name = { $regex: new RegExp(name, 'i') };
+      filter.name = { $regex: new RegExp(name, "i") };
     }
     if (description) {
-      filter.description = { $regex: new RegExp(description, 'i') };
+      filter.description = { $regex: new RegExp(description, "i") };
     }
     if (course) {
-      filter.course = { $regex: new RegExp(course, 'i') };
+      filter.course = { $regex: new RegExp(course, "i") };
     }
     if (entrySemester) {
       filter.entrySemester = entrySemester;
     }
     if (skills) {
-      const skillsArray = skills.split(',').map(skill => skill.trim());
+      const skillsArray = skills.split(",").map((skill) => skill.trim());
       filter.skills = { $all: skillsArray };
     }
 
-    const students = await Student.find(filter).select('-password');
+    const students = await Student.find(filter).select("-password");
     res.status(200).json(students);
   } catch (error) {
     console.log("Something went wrong when trying to search for students");
