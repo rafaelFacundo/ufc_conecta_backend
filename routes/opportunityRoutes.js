@@ -16,7 +16,7 @@ import {
 
 const router = Router();
 
-router.get("/opportunities", authenticateStudentOrEmployer, getAll);
+router.get("/opportunities", /* authenticateStudentOrEmployer, */ getAll);
 router.post("/opportunities", authenticateEmployer, create);
 router.get("/opportunities/:id", authenticateStudentOrEmployer, getById);
 router.delete("/opportunities/:id", authenticateEmployer, remove);

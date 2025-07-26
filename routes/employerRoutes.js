@@ -4,6 +4,7 @@ import {
   getProfile,
   updateProfile,
   getOpportunitiesByEmployer,
+  getAll,
 } from "../controllers/Employer.js";
 import {
   authenticateEmployer,
@@ -24,5 +25,7 @@ employerRouter.get(
   authenticateStudentOrEmployer,
   getOpportunitiesByEmployer
 );
+
+employerRouter.get("/employers", getAll);
 
 export default employerRouter;

@@ -31,7 +31,7 @@ export const login = async (req, res) => {
     const dataToSendInRefreshToken = {
       userId: user._id,
     };
-    const accessToken = generateNewToken(dataToSendInToken, "10d");
+    const accessToken = generateNewToken(dataToSendInToken, "5m");
     const refreshToken = generateNewRefreshToken(
       dataToSendInRefreshToken,
       "10d"
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
       creationDate: Date.now(),
       isValid: true,
     }).save();
-    res.status(200).json({ user, accessToken, refreshToken });
+    res.status(200).json({ data: user, accessToken, refreshToken });
   } catch (error) {
     console.log("Error while trying to login");
     console.log(error);

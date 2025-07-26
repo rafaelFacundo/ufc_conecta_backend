@@ -110,3 +110,16 @@ export const getOpportunitiesByEmployer = async (req, res) => {
     });
   }
 };
+
+export const getAll = async (req, res) => {
+  try {
+    const employers = await Employer.find();
+    res.status(200).json(employers);
+  } catch (error) {
+    console.log("Something went wrong when trying to get employers");
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong when trying to get employers",
+    });
+  }
+};
