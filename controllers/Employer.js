@@ -6,6 +6,7 @@ import { generateNewRefreshToken, generateNewToken } from "../utils/tokens.js";
 
 export const create = async (req, res) => {
   try {
+    console.log("LLLLLLLLLLLLLLL");
     const { name, description, profile, email, password } = req.body;
     const hashedPassword = await hashPassword(password);
     const newEmployer = new Employer({

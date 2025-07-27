@@ -41,8 +41,15 @@ export const getAll = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    const { title, description, salary, weeklyHours, workLocation, employer } =
-      req.body;
+    const {
+      title,
+      description,
+      salary,
+      weeklyHours,
+      workLocation,
+      employer,
+      endDate,
+    } = req.body;
     const newOpportunity = new Opportunity({
       title,
       description,
@@ -50,6 +57,7 @@ export const create = async (req, res) => {
       weeklyHours,
       workLocation,
       employer,
+      endDate,
     });
     await newOpportunity.save();
     res.status(201).json(newOpportunity);

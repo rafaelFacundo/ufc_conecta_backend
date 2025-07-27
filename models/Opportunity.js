@@ -29,6 +29,10 @@ const opportunitySchema = new Schema({
     ref: "Employer",
     required: true,
   },
+  endDate: {
+    type: String,
+    require: true,
+  },
   applicants: {
     type: [
       {

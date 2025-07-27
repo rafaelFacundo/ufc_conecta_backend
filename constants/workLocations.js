@@ -1,7 +1,7 @@
 const workLocations = Object.freeze({
-  REMOTE: "Remoto",
-  HYBRID: "Híbrido",
-  PRESENTIAL: "Presencial",
+  REMOTE: "remote",
+  HYBRID: "hybrid",
+  PRESENTIAL: "in-person",
 });
 
 export default workLocations;

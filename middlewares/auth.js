@@ -27,6 +27,7 @@ export const authenticateStudent = (req, res, next) => {
 export const authenticateStudentOrEmployer = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
+
   if (!token) {
     return res.sendStatus(401);
   }
@@ -94,17 +95,22 @@ export const authenticateAdm = (req, res, next) => {
 };
 
 export const authenticateRefreshToken = async (req, res, next) => {
+  console.log(
+    "KJKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+  );
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
+  console.log("TOKENNN", token);
   if (!token) {
     return res.sendStatus(401);
   }
   let refreshToken;
   try {
-    refreshToken = await RefreshToken.find({
+    refreshToken = await RefreshToken.findOne({
       hash: token,
       isValid: true,
     });
+    console.log(refreshToken);
     if (!refreshToken) {
       return res.sendStatus(401);
     }

@@ -26,6 +26,6 @@ employerRouter.get(
   getOpportunitiesByEmployer
 );
 
-employerRouter.get("/employers", getAll);
+employerRouter.get("/employers", authenticateStudentOrEmployer, getAll);
 
 export default employerRouter;

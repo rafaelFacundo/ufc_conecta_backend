@@ -10,11 +10,11 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     let user = await Student.findOne({
       email,
-    });
+    }).select("+password");
     if (!user) {
       user = await Employer.findOne({
         email,
-      });
+      }).select("+password");
       if (!user) {
         return res.status(404).json({ message: "email or password is wrong" });
       }
@@ -31,6 +31,7 @@ export const login = async (req, res) => {
     const dataToSendInRefreshToken = {
       userId: user._id,
     };
+    console.log("LKKAOIJOIJOIJOIJOIJOIJOIJOIJoi");
     const accessToken = generateNewToken(dataToSendInToken, "5m");
     const refreshToken = generateNewRefreshToken(
       dataToSendInRefreshToken,
@@ -46,7 +47,7 @@ export const login = async (req, res) => {
   } catch (error) {
     console.log("Error while trying to login");
     console.log(error);
-    res.send(500).json({ message: "something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 };
 
