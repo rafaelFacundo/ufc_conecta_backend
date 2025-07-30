@@ -14,7 +14,11 @@ import {
 const employerRouter = new Router();
 
 employerRouter.post("/employers/register", create);
-employerRouter.get("/employers/:id/profile", authenticateEmployer, getProfile);
+employerRouter.get(
+  "/employers/:id/profile",
+  authenticateStudentOrEmployer,
+  getProfile
+);
 employerRouter.put(
   "/employers/:id/profile",
   authenticateEmployer,
