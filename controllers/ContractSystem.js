@@ -18,7 +18,7 @@ export const start = async (req, res) => {
     });
 
     await opportunity.save();
-    res.status(200).json(opportunity);
+    res.status(201).json(opportunity);
   } catch (error) {
     console.log("Something went wrong");
     console.log(error);
@@ -39,7 +39,7 @@ export const confirm = async (req, res) => {
     }
     contract.status = "confirmed";
     await opportunity.save();
-    res.status(200).json(opportunity);
+    res.status(201).json(opportunity);
   } catch (error) {
     console.log("Something went wrong");
     console.log(error);
