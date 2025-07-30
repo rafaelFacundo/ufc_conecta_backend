@@ -8,6 +8,9 @@ import admRouter from "./routes/admRouter.js";
 import authRouter from "./routes/Auth.js";
 import cors from "cors";
 import contractRouter from "./routes/contractRouter.js";
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yaml';
+import fs from 'fs';
 
 const app = express();
 
@@ -19,6 +22,10 @@ const API_ENTRY_POINT = "/api/v1";
 app.get("/testserver", (req, res) => {
   res.send("THE SERVER IS ON FIRE 🔥.");
 });
+
+const file = fs.readFileSync('./swagger.yaml', 'utf8');
+const swaggerDocument = YAML.parse(file);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(API_ENTRY_POINT, studentRouter);
 app.use(API_ENTRY_POINT, employerRouter);

@@ -1,0 +1,317 @@
+openapi: 3.0.0
+info:
+  title: API ConectaUFC
+  description: API para a plataforma ConectaUFC, um lugar exclusivo para conectar talentos da universidade pública a oportunidades reais.
+  version: 1.0.0
+servers:
+  - url: /api/v1
+paths:
+  /auth/login:
+    post:
+      summary: Login de usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login bem-sucedido
+  /auth/send-email:
+    post:
+      summary: Envia um e-mail de verificação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+      responses:
+        '200':
+          description: E-mail enviado
+  /auth/verify-email-code:
+    post:
+      summary: Verifica o código de e-mail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                code:
+                  type: string
+      responses:
+        '200':
+          description: E-mail verificado
+  /auth/refresh:
+    post:
+      summary: Renova o token de acesso
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token renovado
+  /employers/register:
+    post:
+      summary: Registra um novo empregador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employer'
+      responses:
+        '201':
+          description: Empregador criado
+  /employers/{id}/profile:
+    get:
+      summary: Obtém o perfil de um empregador
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Perfil do empregador
+  /employers/{id}/opportunities:
+    get:
+      summary: Obtém as vagas de um empregador
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de vagas
+  /employers:
+    get:
+      summary: Obtém todos os empregadores
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de empregadores
+  /opportunities:
+    get:
+      summary: Obtém todas as vagas
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de vagas
+    post:
+      summary: Cria uma nova vaga
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Opportunity'
+      responses:
+        '201':
+          description: Vaga criada
+  /opportunities/{id}:
+    get:
+      summary: Obtém uma vaga por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalhes da vaga
+    delete:
+      summary: Remove uma vaga
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Vaga removida
+  /opportunities/{id}/applicants:
+    get:
+      summary: Obtém os candidatos de uma vaga
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de candidatos
+  /opportunities/{id}/apply:
+    post:
+      summary: Candidata-se a uma vaga
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: string
+      responses:
+        '200':
+          description: Candidatura bem-sucedida
+  /students/register:
+    post:
+      summary: Registra um novo estudante
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Estudante criado
+  /students/search:
+    get:
+      summary: Busca por estudantes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de estudantes
+  /students/{id}/profile:
+    get:
+      summary: Obtém o perfil de um estudante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Perfil do estudante
+    put:
+      summary: Atualiza o perfil de um estudante
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Perfil atualizado
+  /students/{id}/opportunities/applied:
+    get:
+      summary: Obtém as vagas em que um estudante se candidatou
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de vagas candidatadas
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        course:
+          type: string
+        entrySemester:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    Employer:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        profile:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    Opportunity:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        salary:
+          type: number
+        weeklyHours:
+          type: number
+        workLocation:
+          type: string
+        employer:
+          type: string
+        endDate:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
