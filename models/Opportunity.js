@@ -56,6 +56,15 @@ const opportunitySchema = new Schema({
     ],
     default: [],
   },
+  refusedApplicants: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+      },
+    ],
+    default: [],
+  },
 });
 
 const Opportunity = mongoose.model("Opportunity", opportunitySchema);

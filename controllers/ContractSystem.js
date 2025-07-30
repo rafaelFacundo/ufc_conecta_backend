@@ -7,7 +7,6 @@ export const start = async (req, res) => {
       employer: employerId,
       _id: opportunityId,
     });
-    console.log("OPOORR", opportunity.contracts);
     if (!opportunity) {
       return res.status(404).json({ message: "Opportunity not found" });
     }
@@ -16,6 +15,28 @@ export const start = async (req, res) => {
       employeeId: userId,
       status: "pending",
     });
+
+    await opportunity.save();
+    res.status(201).json(opportunity);
+  } catch (error) {
+    console.log("Something went wrong");
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const refuse = async (req, res) => {
+  try {
+    const { userId, employerId, opportunityId } = req.body;
+    const opportunity = await Opportunity.findOne({
+      employer: employerId,
+      _id: opportunityId,
+    });
+    if (!opportunity) {
+      return res.status(404).json({ message: "Opportunity not found" });
+    }
+
+    opportunity.refusedApplicants.push(userId);
 
     await opportunity.save();
     res.status(201).json(opportunity);
