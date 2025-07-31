@@ -68,14 +68,31 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { id, name, description, profile, email } = req.body;
+    const id = req.params.id;
+    const {
+      name,
+      description,
+      about,
+      profile,
+      email,
+      site,
+      location,
+      specializations,
+      contact,
+    } = req.body;
+    console.log("specialization", specializations);
     const updatedEmployer = await Employer.findByIdAndUpdate(
       id,
       {
         name,
         description,
+        about,
         profile,
         email,
+        site,
+        location,
+        specializations,
+        contact,
       },
       {
         new: true,

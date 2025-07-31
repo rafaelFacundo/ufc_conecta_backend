@@ -13,6 +13,11 @@ const employerSchema = new Schema({
     minLength: 10,
     maxLength: 255,
   },
+  about: {
+    type: String,
+    required: false,
+    default: "",
+  },
   email: {
     type: String,
     required: true,

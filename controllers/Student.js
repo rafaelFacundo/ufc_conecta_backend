@@ -69,15 +69,24 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { id, name, description, course, entrySemester, email } = req.body;
+    const id = req.params.id;
+    const {
+      name,
+      description,
+      about,
+      course,
+      entrySemester,
+      graduationForecast,
+    } = req.body;
     const updatedStudent = await Student.findByIdAndUpdate(
       id,
       {
         name,
         description,
+        about,
         course,
         entrySemester,
-        email,
+        graduationForecast,
       },
       {
         new: true,
