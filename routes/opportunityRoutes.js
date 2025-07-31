@@ -7,6 +7,7 @@ import {
   getApplicants,
   applyToOpportunity,
   getByEmployerId,
+  getByApplicantId,
 } from "../controllers/Opportunity.js";
 import {
   authenticateEmployer,
@@ -34,6 +35,11 @@ router.get(
   "/opportunities/employer/:id",
   authenticateStudentOrEmployer,
   getByEmployerId
+);
+router.get(
+  "/opportunities/applicant/:id",
+  authenticateStudent,
+  getByApplicantId
 );
 
 export default router;

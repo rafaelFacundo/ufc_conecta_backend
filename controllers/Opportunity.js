@@ -176,3 +176,23 @@ export const getByEmployerId = async (req, res) => {
     });
   }
 };
+
+export const getByApplicantId = async (req, res) => {
+  try {
+    const employeeId = req.params.id;
+    const opportunities = await Opportunity.find({
+      contracts: {
+        $elemMatch: {
+          employeeId: employeeId,
+        },
+      },
+    });
+    res.status(200).json(opportunities);
+  } catch (error) {
+    console.log("Something went wrong when trying to retrieve the opportunity");
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong when trying to retrieve the opportunity.",
+    });
+  }
+};
